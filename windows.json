@@ -1,0 +1,31 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "aws_region":     "us-east-1",
+    "aws_instance_type": "t2.micro",
+    "aws_source_ami": "ami-b8f3b5c7"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "{{user `aws_region`}}",
+      "source_ami": "{{user `aws_source_ami`}}",
+      "instance_type": "{{user `aws_instance_type`}}",
+      "user_data_file":"./ec2-userdata.ps1",
+      "communicator": "winrm",
+      "winrm_username": "Administrator",
+      "winrm_use_ssl": true,
+      "winrm_insecure": true,
+      "ami_name": "Windows2012-{{isotime | clean_ami_name}}",
+      "tags": {
+        "role": "windows"
+      },
+      "run_tags": {
+        "role": "windows"
+      }
+    }
+  ]
+}
